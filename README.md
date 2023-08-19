@@ -1,20 +1,18 @@
-# Installing and using cloud containers on ChromeOS
+# Installing and using cloud containers on ChromeOS instead of the default supplied by Google
 
-This will probably be more useful when there is support for creating
-multiple containers in the UI. Based on the beta version of that feature,
-alternate cloud images can be used and this cloud-cfg.yaml can be a possible
-starting point.
+## This is a work in progress that explains how to install cloud containers with *minimal* ChromeOS integration.
+Ideally it would be possible to launch a custom vm using vmc.  I'd even be happy to have the default termina kernel and initrd with custom rw rootfs.
 
-## Work in progress that attempts to install cloud containers with *minimal* integration with ChromeOS
-(Google only provides packages for Debian 11, so create essentials using cloud-init)
+Since that's not possible without putting the whole device into developer mode, this is the best alternative I have come up with.
 
-**Termina seems to only start lxd reliably IF you have the flag
-_Crostini Reset LXD DB on launch_ set to *Enabled* (chrome://flags/#crostini-reset-lxd-db).
-Because this also means all containers not named `penguin` are LOST whenever the termina vm
-is restarted, you should consider any container not named `penguin` to be ephemeral.**
-(You may even prefer to add the `-e` or `--ephemeral` option to the `lxc launch ...` command
-so that they are marked as such.  I'm not sure what happens to the storage tney are using when
-they are lost, so this may be a good idea anyway.
+
+
+Alternate cloud images can be used and this cloud-cfg.yaml can be used as a possible
+starting point. 
+
+The archlinux wiki has more information on how the linux development environment is set up.
+https://wiki.archlinux.org/title/Chrome_OS_devices/Crostini
+
 
 ### Launch the termina VM
 1. Open crosh with the shortcut `Ctrl+Alt+T`
@@ -22,13 +20,14 @@ they are lost, so this may be a good idea anyway.
 
 ### Launch the debian based linux container in the VM
 
+_Google only provides packages for specific versions of Debian, so set up essential services and software using cloud-init_
+
 1. Save and edit `cloud-cfg.yaml`. You shoud change the `ssh_authorized_keys` and 'default_user.name` to what you would like to use.  You can also add to the list of packages that will be installed during instance creation.
     - Make sure this file is accessable in termina somewhere.
     - You will pass this file as input to the `lxc launch ...` command
 
-1. Run `lxc launch images:debian/11/cloud penguin < .../cloud-cfg.yaml` at the termina command line
-   - _the first time you do this you must use the name 'penguin' so that the terminal application
-   will detect the container_
+1. Run `lxc launch images:debian/12/cloud penguin < .../cloud-cfg.yaml` at the termina command line
+   - _you must use the name 'penguin' so that the terminal application will detect the container_
    - You can wait for cloud-init completion with the command
    `lxc exec penguin -- cloud-init status --long --wait`
 
@@ -40,7 +39,16 @@ If you already have a _Linux development environment_ you may need to restart th
 the terminal app will be able to connect to the new container (still named penguin).
 
 After this point you should be able to create more containers in termina manually with `lxc launch ...`
-**See note above about dissapearing containers**
+
+# Major issues with dissapearing containers and leaking storage to unreferenceable images/files #
+**Termina seems to only start lxd reliably IF you have the flag
+_Crostini Reset LXD DB on launch_ set to *Enabled* (chrome://flags/#crostini-reset-lxd-db).
+Because this also means all containers not named `penguin` are LOST whenever the termina vm
+is restarted, you should consider any container not named `penguin` to be ephemeral.**
+(You may even prefer to add the `-e` or `--ephemeral` option to the `lxc launch ...` command
+so that they are marked as such.  
+The last time I checked the storage tney are using when they are lost, becomes innaccesable but is not deleted. 
+
 
 _When creating subsequent containers you can leave the container-name blank and one will be generated._
 Creating multiple containers from the same image will be much faster than different images.
