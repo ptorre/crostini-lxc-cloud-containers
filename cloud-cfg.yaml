@@ -63,7 +63,8 @@ config:
         content: |
           # Prevent garcon from installing unwanted services or updating
           # the package repositories.
-          # Excecutables provided in lxc mounts and will update with system ChromeOS updates.
+          # Excecutables provided in lxc mounts and will update with system 
+          # ChromeOS updates.
           DisableAutomaticCrosPackageUpdates=true
           DisableAutomaticSecurityUpdates=true
       - path: /var/lib/cloud/scripts/per-boot/clean-apt-cros.sh
