@@ -61,7 +61,7 @@ config:
       - path: "/etc/skel/.config/cros-garcon.conf"
         permissions: "0644"
         content: |
-          # Prevent garcon from installing unwanted services or updating 
+          # Prevent garcon from installing unwanted services or updating
           # the package repositories.
           # Excecutables provided in lxc mounts and will update with system ChromeOS updates.
           DisableAutomaticCrosPackageUpdates=true
