@@ -19,7 +19,7 @@ Click the "Remove Linux development environment" button if present and wait for 
 Next to "Linux development environment," select Turn On.
 1. Wait till this completes
 
-_while this is time consuming it should only need to be done once and will save a lot of greif later_
+_while this is time consuming, it should only need to be done once and will save a lot of greif later_
 
 ### Remove the default penguin image completely before installing something else
 
