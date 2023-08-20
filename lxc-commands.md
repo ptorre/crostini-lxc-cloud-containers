@@ -111,7 +111,7 @@ used by:
 
 
 ```
-(termina) chronos@localhost ~ $ curl https://raw.githubusercontent.com/ptorre/crostini-lxc-cloud-containers/remove-sftp-service/cloud-cfg.yaml > /tmp/cloud-cfg.yaml
+(termina) chronos@localhost ~ $ curl https://raw.githubusercontent.com/ptorre/crostini-lxc-cloud-containers/main/cloud-cfg.yaml > /tmp/cloud-cfg.yaml
 
 (termina) chronos@localhost ~ $ lxc launch images:debian/12/cloud penguin < ^C//raw.githubusercontent.com/ptorre/crostini-lxc-cloud-containers/remove-sftp-service/cloud-cfg.[1;3Dyaml
 (termina) chronos@localhost ~ $ set -o vi
@@ -141,26 +141,12 @@ crosh> exit
 
 ```
 crosh> vsh termina
-(termina) chronos@localhost ~ $ lxc storage list
-+---------+-------------+--------+-----------------------------------------+---------+
-|  NAME   | DESCRIPTION | DRIVER |                 SOURCE                  | USED BY |
-+---------+-------------+--------+-----------------------------------------+---------+
-| default |             | btrfs  | /mnt/stateful/lxd/storage-pools/default | 3       |
-+---------+-------------+--------+-----------------------------------------+---------+
-(termina) chronos@localhost ~ $ lxc storage show default
-config:
-  source: /mnt/stateful/lxd/storage-pools/default
-  volatile.initial_source: /mnt/stateful/lxd/storage-pools/default
-description: ""
-name: default
-driver: btrfs
-used_by:
-- /1.0/images/94d9683004ff224230d0095fcc61fc4978d3abc6d81509883bfcb840db5e54a8
-- /1.0/instances/penguin
-- /1.0/profiles/default
-status: Created
-locations:
-- none
+(termina) chronos@localhost ~ $ lxc image list
++-------+--------------+--------+----------------------------------------+--------------+-----------+----------+------------------------------+
+| ALIAS | FINGERPRINT  | PUBLIC |              DESCRIPTION               | ARCHITECTURE |   TYPE    |   SIZE   |         UPLOAD DATE          |
++-------+--------------+--------+----------------------------------------+--------------+-----------+----------+------------------------------+
+|       | 94d9683004ff | no     | Debian bookworm arm64 (20230819_05:24) | aarch64      | CONTAINER | 118.13MB | Aug 20, 2023 at 2:48am (UTC) |
++-------+--------------+--------+----------------------------------------+--------------+-----------+----------+------------------------------+
 (termina) chronos@localhost ~ $ lxc storage info default
 info:
   description: ""
@@ -175,13 +161,8 @@ used by:
   - penguin
   profiles:
   - default
-(termina) chronos@localhost ~ $ lxc image list
-+-------+--------------+--------+----------------------------------------+--------------+-----------+----------+------------------------------+
-| ALIAS | FINGERPRINT  | PUBLIC |              DESCRIPTION               | ARCHITECTURE |   TYPE    |   SIZE   |         UPLOAD DATE          |
-+-------+--------------+--------+----------------------------------------+--------------+-----------+----------+------------------------------+
-|       | 94d9683004ff | no     | Debian bookworm arm64 (20230819_05:24) | aarch64      | CONTAINER | 118.13MB | Aug 20, 2023 at 2:48am (UTC) |
-+-------+--------------+--------+----------------------------------------+--------------+-----------+----------+------------------------------+
-(termina) chronos@localhost ~ $ lxc image delete 94d9683004ff
+
+(termina) chronos@localhost ~ $ lxc image delete 94d9683004ff224230d0095fcc61fc4978d3abc6d81509883bfcb840db5e54a8
 (termina) chronos@localhost ~ $ lxc image list
 +-------+-------------+--------+-------------+--------------+------+------+-------------+
 | ALIAS | FINGERPRINT | PUBLIC | DESCRIPTION | ARCHITECTURE | TYPE | SIZE | UPLOAD DATE |
@@ -199,7 +180,7 @@ used by:
   profiles:
   - default
 
-# Wait about 10 seconds ...
+# Wait about a minute for the image to be deleted...
 
 (termina) chronos@localhost ~ $ lxc storage info default
 info:

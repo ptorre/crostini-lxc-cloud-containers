@@ -90,4 +90,3 @@ For example:
 You can attempt debugging from a shell in termina by connecting to containers directly:
 Open a crosh termina (Ctrl+Alt+T) type `vsh termina` then
 `lxc exec <container-name> -- bash`
-
