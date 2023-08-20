@@ -1,3 +1,4 @@
+---
 config:
   user.user-data: |
     #cloud-config
@@ -8,6 +9,7 @@ config:
     package_upgrade: true
     packages:
       - openssh-sftp-server
+      - bash-completion
       - apt-utils
       - apt-file
       - man-db
@@ -20,15 +22,16 @@ config:
       - file
       - tmux
       - git
-      - yamllint
+      - gcc
       - binutils
-      - tinyscheme
+      - python3-dev
       - python-is-python3
       - python3.11-venv
       - openjdk-17-jdk
       - openjdk-17-doc
       - openjdk-17-source
-      - bash-completion
+      - tinyscheme
+      - yamllint
     write_files:
       - path: /etc/environment
         content: |
