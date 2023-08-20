@@ -74,6 +74,7 @@ config:
           # Remove the cros.list package source that periodically respawns
           rm -f /etc/apt/sources.list.d/cros.list
     runcmd:
+      - apt-get autopurge --yes openssh-server 
       - mkdir -p /usr/lib/systemd/user/default.target.wants/
       - ln -s /usr/lib/systemd/user/cros-garcon.service /usr/lib/systemd/user/default.target.wants/
       - systemctl --global enable cros-garcon.service
