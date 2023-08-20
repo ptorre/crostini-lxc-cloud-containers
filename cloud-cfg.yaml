@@ -4,29 +4,31 @@ config:
     system_info:
       default_user:
         name: "ptorre"
-
-    ssh_authorized_keys:
-      - "ssh-rsa \
-      AAAAB3NzaC1yc2EAAAADAQABAAABgQCysKo75UfUVeWNjg2pQCpwi9h4u3McF9XjdJVDsI\
-      uCB6Oem2zjDY3sHtC6SESMctrCagmdzPoHSO1kqfoab/3yIs49K+tMieBWZZ0lZjuU8jj5\
-      uZxlZRl8+CX6vhmkgyZOEnSVLe0Q1VIDiyowRMlV642nQJOny+BzpHjsURoxec3Xy/Zcax\
-      c7kaRAjXH51e51FpKJIA7ib5rFXHTVQHJpe9TTIu/2yWgZkM55oY+RbndwBdKp7AkyyCCF\
-      0CpF0y3irlslQgwMI3XQoPwIQLJZ/bpiq5exiPG608K7a+5Y3kToWNTxsw5NcXOkimGd4B\
-      J4dLr+KUzvXsjHIyyinC30QWHSAu8UftesvO95WpQOaEKDsqRUlB/s6caraV4QexXpnBC0\
-      WjcsQ3I4c6A4gDzkE+C4dPZ1X9k4WhEvIDOGnBhqL+YLs5vg9wJCCF3y56itTA4ieVymjK\
-      jj3q0vR5VKQhdLrIp6SAjQOPVf9ok0CYlcCyRGZaCIxcbzuEYGcLE= ptorre@zero"
-
     package_update: true
     package_upgrade: true
     packages:
-      - tar
+      - openssh-sftp-server
+      - apt-utils
+      - apt-file
+      - man-db
       - rsync
       - wget
-      - man-db
-      - bash-completion
-      - tmux
+      - curl
       - less
-
+      - zip
+      - unzip
+      - file
+      - tmux
+      - git
+      - yamllint
+      - binutils
+      - tinyscheme
+      - python-is-python3
+      - python3.11-venv
+      - openjdk-17-jdk
+      - openjdk-17-doc
+      - openjdk-17-source
+      - bash-completion
     write_files:
       - path: /etc/environment
         content: |
