@@ -1,3 +1,4 @@
+---
 config:
   user.user-data: |
     #cloud-config
@@ -8,9 +9,9 @@ config:
     package_upgrade: true
     packages:
       - openssh-sftp-server
+      - bash-completion
       - apt-utils
       - apt-file
-      - man-db
       - rsync
       - wget
       - curl
@@ -20,15 +21,14 @@ config:
       - file
       - tmux
       - git
-      - yamllint
+      - gcc
       - binutils
-      - tinyscheme
-      - python-is-python3
+      - python3-dev
       - python3.11-venv
-      - openjdk-17-jdk
-      - openjdk-17-doc
-      - openjdk-17-source
-      - bash-completion
+      - python-is-python3
+      - tinyscheme
+      - yamllint
+      - man-db
     write_files:
       - path: /etc/environment
         content: |
@@ -61,8 +61,10 @@ config:
       - path: "/etc/skel/.config/cros-garcon.conf"
         permissions: "0644"
         content: |
-          # Prevent garcon from updating the package repositories.
-          # Excecutables provided in lxc mounts and will update with system ChromeOS updates.
+          # Prevent garcon from installing unwanted services or updating
+          # the package repositories.
+          # Excecutables provided in lxc mounts and will update with system 
+          # ChromeOS updates.
           DisableAutomaticCrosPackageUpdates=true
           DisableAutomaticSecurityUpdates=true
       - path: /var/lib/cloud/scripts/per-boot/clean-apt-cros.sh
@@ -72,6 +74,7 @@ config:
           # Remove the cros.list package source that periodically respawns
           rm -f /etc/apt/sources.list.d/cros.list
     runcmd:
+      - apt-get autopurge --yes openssh-server 
       - mkdir -p /usr/lib/systemd/user/default.target.wants/
       - ln -s /usr/lib/systemd/user/cros-garcon.service /usr/lib/systemd/user/default.target.wants/
       - systemctl --global enable cros-garcon.service
