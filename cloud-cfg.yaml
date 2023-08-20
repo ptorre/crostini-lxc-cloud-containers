@@ -4,30 +4,31 @@ config:
     system_info:
       default_user:
         name: "ptorre"
-
-    ssh_authorized_keys:
-      - "ssh-rsa \
-      AAAAB3NzaC1yc2EAAAADAQABAAABgQCysKo75UfUVeWNjg2pQCpwi9h4u3McF9XjdJVDsI\
-      uCB6Oem2zjDY3sHtC6SESMctrCagmdzPoHSO1kqfoab/3yIs49K+tMieBWZZ0lZjuU8jj5\
-      uZxlZRl8+CX6vhmkgyZOEnSVLe0Q1VIDiyowRMlV642nQJOny+BzpHjsURoxec3Xy/Zcax\
-      c7kaRAjXH51e51FpKJIA7ib5rFXHTVQHJpe9TTIu/2yWgZkM55oY+RbndwBdKp7AkyyCCF\
-      0CpF0y3irlslQgwMI3XQoPwIQLJZ/bpiq5exiPG608K7a+5Y3kToWNTxsw5NcXOkimGd4B\
-      J4dLr+KUzvXsjHIyyinC30QWHSAu8UftesvO95WpQOaEKDsqRUlB/s6caraV4QexXpnBC0\
-      WjcsQ3I4c6A4gDzkE+C4dPZ1X9k4WhEvIDOGnBhqL+YLs5vg9wJCCF3y56itTA4ieVymjK\
-      jj3q0vR5VKQhdLrIp6SAjQOPVf9ok0CYlcCyRGZaCIxcbzuEYGcLE= ptorre@zero"
-
     package_update: true
     package_upgrade: true
     packages:
-      - openssh-server
-      - tar
+      - openssh-sftp-server
+      - apt-utils
+      - apt-file
+      - man-db
       - rsync
       - wget
-      - man-db
-      - bash-completion
-      - tmux
+      - curl
       - less
-
+      - zip
+      - unzip
+      - file
+      - tmux
+      - git
+      - yamllint
+      - binutils
+      - tinyscheme
+      - python-is-python3
+      - python3.11-venv
+      - openjdk-17-jdk
+      - openjdk-17-doc
+      - openjdk-17-source
+      - bash-completion
     write_files:
       - path: /etc/environment
         content: |
@@ -42,26 +43,6 @@ config:
           alias pt='pstree -aslpt '
           HISTTIMEFORMAT='%A %D %T '
         append: true
-      - path: /usr/lib/systemd/system/cros-sftp.service
-        content: |
-          [Unit]
-          Description=CrOS SFTP service
-          After=network.target auditd.service
-
-          [Service]
-          ExecStartPre=/usr/sbin/sshd -t -f /dev/.ssh/sshd_config
-          ExecStart=/usr/sbin/sshd -D -f /dev/.ssh/sshd_config
-          ExecStopPost=/opt/google/cros-containers/bin/guest_service_failure_notifier cros-sftp
-          ExecReload=/usr/sbin/sshd -t -f /dev/.ssh/sshd_config
-          ExecReload=/bin/kill -HUP $MAINPID
-          KillMode=process
-          Restart=on-failure
-          RestartPreventExitStatus=255
-          Type=notify
-          RuntimeDirectory=sshd
-
-          [Install]
-          WantedBy=default.target
       - path: /usr/lib/systemd/user/cros-garcon.service
         content: |
           [Unit]
@@ -91,9 +72,6 @@ config:
           # Remove the cros.list package source that periodically respawns
           rm -f /etc/apt/sources.list.d/cros.list
     runcmd:
-      - mkdir -p /usr/lib/systemd/system/default.target.wants/
-      - ln -s /usr/lib/systemd/system/cros-sftp.service /usr/lib/systemd/system/default.target.wants/
-      - systemctl enable cros-sftp.service
       - mkdir -p /usr/lib/systemd/user/default.target.wants/
       - ln -s /usr/lib/systemd/user/cros-garcon.service /usr/lib/systemd/user/default.target.wants/
       - systemctl --global enable cros-garcon.service
