@@ -12,7 +12,6 @@ config:
       - bash-completion
       - apt-utils
       - apt-file
-      - man-db
       - rsync
       - wget
       - curl
@@ -25,13 +24,11 @@ config:
       - gcc
       - binutils
       - python3-dev
-      - python-is-python3
       - python3.11-venv
-      - openjdk-17-jdk
-      - openjdk-17-doc
-      - openjdk-17-source
+      - python-is-python3
       - tinyscheme
       - yamllint
+      - man-db
     write_files:
       - path: /etc/environment
         content: |
@@ -64,7 +61,8 @@ config:
       - path: "/etc/skel/.config/cros-garcon.conf"
         permissions: "0644"
         content: |
-          # Prevent garcon from updating the package repositories.
+          # Prevent garcon from installing unwanted services or updating 
+          # the package repositories.
           # Excecutables provided in lxc mounts and will update with system ChromeOS updates.
           DisableAutomaticCrosPackageUpdates=true
           DisableAutomaticSecurityUpdates=true
