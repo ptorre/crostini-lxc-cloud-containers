@@ -19,7 +19,6 @@ config:
     package_update: true
     package_upgrade: true
     packages:
-      - openssh-server
       - tar
       - rsync
       - wget
@@ -42,26 +41,6 @@ config:
           alias pt='pstree -aslpt '
           HISTTIMEFORMAT='%A %D %T '
         append: true
-      - path: /usr/lib/systemd/system/cros-sftp.service
-        content: |
-          [Unit]
-          Description=CrOS SFTP service
-          After=network.target auditd.service
-
-          [Service]
-          ExecStartPre=/usr/sbin/sshd -t -f /dev/.ssh/sshd_config
-          ExecStart=/usr/sbin/sshd -D -f /dev/.ssh/sshd_config
-          ExecStopPost=/opt/google/cros-containers/bin/guest_service_failure_notifier cros-sftp
-          ExecReload=/usr/sbin/sshd -t -f /dev/.ssh/sshd_config
-          ExecReload=/bin/kill -HUP $MAINPID
-          KillMode=process
-          Restart=on-failure
-          RestartPreventExitStatus=255
-          Type=notify
-          RuntimeDirectory=sshd
-
-          [Install]
-          WantedBy=default.target
       - path: /usr/lib/systemd/user/cros-garcon.service
         content: |
           [Unit]
@@ -91,9 +70,6 @@ config:
           # Remove the cros.list package source that periodically respawns
           rm -f /etc/apt/sources.list.d/cros.list
     runcmd:
-      - mkdir -p /usr/lib/systemd/system/default.target.wants/
-      - ln -s /usr/lib/systemd/system/cros-sftp.service /usr/lib/systemd/system/default.target.wants/
-      - systemctl enable cros-sftp.service
       - mkdir -p /usr/lib/systemd/user/default.target.wants/
       - ln -s /usr/lib/systemd/user/cros-garcon.service /usr/lib/systemd/user/default.target.wants/
       - systemctl --global enable cros-garcon.service
