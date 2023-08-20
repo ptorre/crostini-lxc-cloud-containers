@@ -84,7 +84,7 @@ profiles:
 - default
 (termina) chronos@localhost ~ $ lxc image delete 061937d12bfd
 
-(termina) chronos@localhost ~ $ lxc image list  
+(termina) chronos@localhost ~ $ lxc image list
 +-------+-------------+--------+-------------+--------------+------+------+-------------+
 | ALIAS | FINGERPRINT | PUBLIC | DESCRIPTION | ARCHITECTURE | TYPE | SIZE | UPLOAD DATE |
 +-------+-------------+--------+-------------+--------------+------+------+-------------+
@@ -106,8 +106,8 @@ info:
 used by:
   profiles:
   - default
-  
-```  
+
+```
 
 
 ```
@@ -115,9 +115,9 @@ used by:
 
 (termina) chronos@localhost ~ $ lxc launch images:debian/12/cloud penguin < ^C//raw.githubusercontent.com/ptorre/crostini-lxc-cloud-containers/remove-sftp-service/cloud-cfg.[1;3Dyaml
 (termina) chronos@localhost ~ $ set -o vi
-(termina) chronos@localhost ~ $ lxc launch images:debian/12/cloud penguin < /tmp/cloud-cfg.yaml 
+(termina) chronos@localhost ~ $ lxc launch images:debian/12/cloud penguin < /tmp/cloud-cfg.yaml
 Creating penguin
-Starting penguin                              
+Starting penguin
 (termina) chronos@localhost ~ $ lxc list
 +---------+---------+-----------------------+----------+-----------+-----------+
 |  NAME   |  STATE  |         IPV4          | IPV6     |   TYPE    | SNAPSHOTS |
@@ -131,8 +131,8 @@ status: done
 root@penguin:~# ps -ef | grep garcon
 ptorre    1028   985  0 02:51 ?        00:00:00 /opt/google/cros-containers/bin/../lib/ld-linux-aarch64.so.1 --argv0 /opt/google/cros-containers/bin/garcon --library-path /opt/google/cros-containers/bin/../lib --inhibit-rpath  /opt/google/cros-containers/bin/garcon.elf --server
 root      1035  1031  0 02:51 pts/1    00:00:00 grep garcon
-root@penguin:~# 
-root@penguin:~# 
+root@penguin:~#
+root@penguin:~#
 exit
 (termina) chronos@localhost ~ $ exit
 logout
@@ -213,7 +213,7 @@ used by:
   - penguin
   profiles:
   - default
-(termina) chronos@localhost ~ $ exit 
+(termina) chronos@localhost ~ $ exit
 logout
 crosh> exit
 ```
