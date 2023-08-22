@@ -27,6 +27,7 @@ config:
       - python3.11-venv
       - python-is-python3
       - tinyscheme
+      - xkb-data
       - yamllint
       - man-db
     write_files:
